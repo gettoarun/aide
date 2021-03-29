@@ -5,7 +5,8 @@
     "test": "echo \"This template does not include a test runner by default.\" && exit 1",
     "format": "prettier --write \"src/**/*.{ts,js}\"",
     "lint": "prettier --check \"src/**/*.{ts,js}\"",
-    "gitpush": "git commit -am"
+    "gitc": "git commit -am",
+    "gitp": "git push"
   },
   "dependencies": {
     "bootstrap-icons": "^1.4.0",
