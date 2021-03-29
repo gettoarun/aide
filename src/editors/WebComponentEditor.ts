@@ -1,11 +1,13 @@
 "use strict";
 
+import type EventBus from "src/services/EventBus";
+
 const THEME_DEFAULT = 'vs-dark';
 
 const webComponentEditorTemplate = `
-    <flex class="v" style="height: 100%">
+    <flex class="h" style="height: 100%">
         <flex-item style="flex: 1">
-            <flex class="h">
+            <flex class="v">
                 <flex-item style="flex: 1">
                     <div id="htmlEditor" class="editor htmlEditor">
                     </div>
@@ -80,39 +82,44 @@ export class WebComponentEditor extends HTMLElement {
     }
 
     monaco: any;
+    editors: any = {};
+    eb: EventBus;
 
     constructor(monaco: any) {
         super();
         this.monaco = monaco;
+        this.eb = (window as any).TheEventBus;
     }
 
     connectedCallback() {
         this.innerHTML = webComponentEditorTemplate;
         
         this.mountEditor('htmlEditor', 'html', '<!-- HTML -->\n');
-        this.mountEditor('cssEditor', 'css', '/* Any CSS */\n');
-        this.mountEditor('jsEditor', 'javascript', '// Your javascript\n');
-        this.mountEditor('previewComponent', 'html', '<!-- Preview Final Web Component -->\n');
+        this.editors.css = this.mountEditor('cssEditor', 'scss', '/* Any CSS */\n');
+        this.editors.js = this.mountEditor('jsEditor', 'javascript', '// Your javascript\n');
+        this.editors.preview = this.mountEditor('previewComponent', 'html', '<!-- Preview Final Web Component -->\n', THEME_DEFAULT, true);
     }
 
-    mountEditor(id: string, language: string, initial: string | string[] = [], theme: string = THEME_DEFAULT) {
+    mountEditor(id: string, language: string, initial: string | string[] = [], theme: string = THEME_DEFAULT, readOnly: boolean = false) {
         const editor = document.getElementById(id);
         if ( editor ) {
-            this.monaco.editor.create(editor, {
+            const ed = this.monaco.editor.create(editor, {
                 value: (initial instanceof Array) ? initial.join('\n') : initial,
                 language,
                 lineNumbers: 'on',
                 automaticLayout: true,
+                readOnly,
                 theme
             });
+            ed.onDidChangeModelContent((event: any) =>
+                this.eb.emit(id + "::codechange", { code: ed.getValue()} )
+            );
+            this.editors[id] = ed;
         }
-        window.dispatchEvent(
-            new CustomEvent('aide-web-component-editor::loaded::' + id, {
-                detail: {
+        this.eb.emit('aide-web-component-editor::loaded::' + id, {
                     id,
                     at: new Date()
-                }
-            })
+                });
         );
     }
 

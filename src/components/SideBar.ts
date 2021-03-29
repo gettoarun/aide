@@ -9,8 +9,8 @@ const SIDE_BAR_ITEM_TEMPLATE = (id: string, image: string, icon: string, title: 
 
 const SIDE_BAR_TEMPLATE = (menuItems: string) => `
 <div class="d-flex flex-column justify-content-between bd-highlight shadow h-100" style="width: 4.5rem;">
-  <a href="/" class="d-block p-3 link-dark text-decoration-none" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
-    <h2 style="font-weight: 300"><center class="border border-dark pb-1 rounded-circle">&#230;</center></h2>
+  <a href="/" class="d-block p-3 link-dark text-center text-decoration-none" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
+    <img src="/assets/images/aide.png" alt="logo" width="32" height="32">
     <span class="visually-hidden">Icon-only</span>
   </a>
   <div class="d-flex flex-column bd-hightlight">
@@ -18,7 +18,7 @@ const SIDE_BAR_TEMPLATE = (menuItems: string) => `
         ${menuItems}
     </ul>
   </div>
-  <div class="dropdown border-top">
+  <div class="dropdown">
     <a href="#" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
       <img src="https://avatars.githubusercontent.com/u/2242350?s=60&v=4" alt="mdo" width="24" height="24" class="rounded-circle">
     </a>

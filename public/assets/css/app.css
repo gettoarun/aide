@@ -39,14 +39,15 @@ body {
   background-color: var(--clr-viewer);
 }
 
-AideLogo {
+AideLogoWatermark {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 20rem;
-  color: rgba(167, 167, 167, 0.2);
-  user-select: none;
+  opacity: 0.1;
+  background-image: url('/assets/images/aide.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;  
+  width: 100%;
+  height: 100%;
 }
 
 .vcenter {
@@ -54,10 +55,26 @@ AideLogo {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: rgba(167, 167, 167, 0.2);
+  /* color: rgba(167, 167, 167, 0.2); */
   user-select: none;
 }
 
+.fade-in {
+	opacity: 1;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 1s;
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
 
 /** FLEX Splitter **/
 
