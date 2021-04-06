@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Preview</title>
+  </head>
+  <body>
+    <b>PREVIEW</b>
+    <script id="bootstrap">
+      let previewCode = "";
+      let componentName = '';
+      let curScriptElement;
+      let curWidgetElement;
+
+      function reload() {
+        if (curWidgetElement) {
+          document.body.removeChild(curWidgetElement);
+        }
+
+        if (curScriptElement) {
+          document.body.removeChild(curScriptElement);
+        }
+
+        curScriptElement = document.createElement("script");
+        curScriptElement.id = "preview-code";
+        curScriptElement.textContent = previewCode;
+        document.body.appendChild(curScriptElement);
+
+        curWidgetElement = document.createElement(componentName);
+        curWidgetElement.id = "preview-app";
+        document.body.appendChild(curWidgetElement);
+      }
+      window.addEventListener("message", m => {
+          data = JSON.parse(m.data);
+        previewCode = data.code;
+        componentName = data.componentName;
+        
+        reload();
+        console.log("Loaded!");
+      });
+    </script>
+  </body>
+</html>
